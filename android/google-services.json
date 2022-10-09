@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "693549684762",
+    "project_id": "local-proton-327315",
+    "storage_bucket": "local-proton-327315.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693549684762:android:149543ee9e9edce91599a3",
+        "android_client_info": {
+          "package_name": "com.example.chat_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693549684762-biosr9fpoli2fjk2822bgstmt43mieem.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chat_app",
+            "certificate_hash": "c3e2de07966e9202885ad1ba7fa4b2e336379ab1"
+          }
+        },
+        {
+          "client_id": "693549684762-ospidagfl4favf6irakmd1hnh8anbdju.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPX7-DVwvF1bTcADU_MXR6wYw5qHL82UQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693549684762-ospidagfl4favf6irakmd1hnh8anbdju.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
