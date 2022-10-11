@@ -1,0 +1,5 @@
+DatabaseService().getChat(widget.groupId).then((val) {
+      setState(() {
+        chat = val;
+      });
+    });

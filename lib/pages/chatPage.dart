@@ -29,11 +29,6 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   getChatAndAdmin() {
-    DatabaseService().getChat(widget.groupId).then((val) {
-      setState(() {
-        chat = val;
-      });
-    });
     DatabaseService().getGroupAdmin(widget.groupId).then((value) {
       setState(() {
         admin = value;
