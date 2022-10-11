@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
-  late final String uid;
+  late String? uid;
 
   //constructor for passing user id
-  DatabaseService({required this.uid});
+  DatabaseService({this.uid});
 //refrence for our collections
 
   final CollectionReference userCollection =
@@ -67,5 +67,17 @@ class DatabaseService {
   }
 
   //getting chat
+  getChat(String groupId) {
+    return groupCollection
+        .doc(groupId)
+        .collection("messages") //creating new collection or using this one
+        .orderBy("time")
+        .snapshots();
+  }
 
+  Future getGroupAdmin(String groupId) async {
+    DocumentReference abc = groupCollection.doc(groupId);
+    DocumentSnapshot documentSnapshot = await abc.get();
+    return documentSnapshot["admin"];
+  }
 }

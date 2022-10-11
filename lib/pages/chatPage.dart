@@ -1,4 +1,5 @@
 import 'package:chat_app/pages/groupInfo.dart';
+import 'package:chat_app/services/database_service.dart';
 import 'package:chat_app/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -19,14 +20,27 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  Stream<QuerySnapshot>? chat;
   String admin = "";
   @override
   void initState() {
-    getChatAdmin();
+    getChatAndAdmin();
     super.initState();
   }
 
-  getChatAdmin() {}
+  getChatAndAdmin() {
+    DatabaseService().getChat(widget.groupId).then((val) {
+      setState(() {
+        chat = val;
+      });
+    });
+    DatabaseService().getGroupAdmin(widget.groupId).then((value) {
+      setState(() {
+        admin = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
