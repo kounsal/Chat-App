@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// ignore_for_file: sort_child_properties_last
 
 import 'package:chat_app/pages/chatPage.dart';
 import 'package:chat_app/services/database_service.dart';
@@ -51,6 +51,7 @@ class _GroupInfoState extends State<GroupInfo> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      backgroundColor: Color.fromARGB(237, 255, 255, 255),
       body: SafeArea(
         child: SingleChildScrollView(
           child: StreamBuilder(
@@ -58,11 +59,12 @@ class _GroupInfoState extends State<GroupInfo> {
               builder: (context, AsyncSnapshot snapshot) {
                 return Column(
                   children: [
-                    const SizedBox(height: 10),
-                    pagedata(),
-                    const SizedBox(height: 5),
-                    membercount(snapshot),
-                    memberlist(snapshot)
+                    header(snapshot),
+                    const SizedBox(height: 7.0),
+                    Container(
+                      decoration: const BoxDecoration(color: Colors.white),
+                      child: memberlist(snapshot),
+                    ),
                   ],
                 );
               }),
@@ -71,44 +73,52 @@ class _GroupInfoState extends State<GroupInfo> {
     );
   }
 
-  pagedata() {
-    return Stack(
-      // ignore: prefer_const_literals_to_create_immutables
-      children: [
-        Positioned(
-          left: 10,
-          child: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back),
+  header(sanapshot) {
+    return Container(
+      decoration: BoxDecoration(color: Colors.white),
+      child: Column(
+        children: [
+          const SizedBox(height: 10),
+          Stack(
+            // ignore: prefer_const_literals_to_create_immutables
+            children: [
+              Positioned(
+                left: 10,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                ),
+              ),
+              const Expanded(
+                  child: Center(
+                child: CircleAvatar(
+                  radius: 70,
+                  child: Icon(Icons.person, size: 60, color: Colors.white),
+                  backgroundColor: Color.fromARGB(228, 219, 72, 62),
+                ),
+              )),
+              const Positioned(
+                right: 10,
+                child: Icon(
+                  Icons.more_vert,
+                ),
+              ),
+            ],
           ),
-        ),
-        const Expanded(
-            child: Center(
-          child: CircleAvatar(
-            radius: 70,
+          ListTile(
+            title: Center(
+              child: Text(
+                widget.groupName,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            subtitle: check(sanapshot),
           ),
-        )),
-        const Positioned(
-          right: 10,
-          child: Icon(
-            Icons.more_vert,
-          ),
-        ),
-      ],
-    );
-  }
-
-  membercount(sanapshot) {
-    return ListTile(
-      title: Center(
-        child: Text(
-          widget.groupName,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
+        ],
       ),
-      subtitle: check(sanapshot),
     );
   }
 
@@ -135,7 +145,9 @@ class _GroupInfoState extends State<GroupInfo> {
             ),
           ));
         } else {
-          return const Center();
+          return const Center(
+            child: Text("No Members"),
+          );
         }
       } else {
         return const Center(
@@ -143,7 +155,11 @@ class _GroupInfoState extends State<GroupInfo> {
         );
       }
     } else {
-      return const Center();
+      return const Center(
+        child: CircularProgressIndicator(
+          color: Colors.red,
+        ),
+      );
     }
   }
 
@@ -182,7 +198,9 @@ class _GroupInfoState extends State<GroupInfo> {
             ),
           ));
         } else {
-          return const Center();
+          return const Center(
+            child: Text("No Members"),
+          );
         }
       } else {
         return const Center(
