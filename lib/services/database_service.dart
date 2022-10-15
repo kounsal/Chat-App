@@ -51,6 +51,7 @@ class DatabaseService {
         "groupId": "",
         "recentMessage": "",
         "recentMessageSender": "",
+        "recentMessageTime": "",
       },
     );
     await groupdocumentReference.update(
@@ -67,10 +68,10 @@ class DatabaseService {
   }
 
   //getting chat
-  getChat(String groupId) {
+  Future getChat(String groupId) async {
     return groupCollection
         .doc(groupId)
-        .collection("messages") //creating new collection or using this one
+        .collection("messages")
         .orderBy("time")
         .snapshots();
   }
@@ -104,5 +105,45 @@ class DatabaseService {
     } else {
       return false;
     }
+  }
+
+//toggling the group join or exit
+  Future toggleGroupJoin(
+      String groupId, String groupName, String userName) async {
+    DocumentReference userDocumentRefrence =
+        userCollection.doc(uid); //getting the reference of user
+    DocumentReference groupDocumentRefrence = groupCollection.doc(groupId);
+    DocumentSnapshot documentSnapshot = await userDocumentRefrence.get();
+    List<dynamic> groups = documentSnapshot['groups'];
+    if (groups.contains("${groupId}_$groupName")) {
+      await userDocumentRefrence.update({
+        "groups": FieldValue.arrayRemove(
+            ["${groupId}_$groupName"]), //removing group id from user
+      });
+      await groupDocumentRefrence.update({
+        "members": FieldValue.arrayRemove(
+            ["${uid}_$userName"]) //removing member from groupName
+      });
+    } else {
+      await userDocumentRefrence.update({
+        "groups": FieldValue.arrayUnion(["${groupId}_$groupName"])
+      });
+      await groupDocumentRefrence.update({
+        "members": FieldValue.arrayUnion(["${uid}_$userName"])
+      });
+    }
+  }
+
+  //send message to group
+  sendMessageToGroup(
+      String groupId, Map<String, dynamic> chatMessageData) async {
+    groupCollection.doc(groupId).collection("messages").add(chatMessageData);
+    groupCollection.doc(groupId).update(
+      {
+        "recentMessage": chatMessageData["message"],
+        "recentMessageSender": chatMessageData["sender"],
+        "recentMessageTime": chatMessageData["time"],
+      },
+    );
   }
 }

@@ -4,7 +4,32 @@ DatabaseService().getChat(widget.groupId).then((val) {
       });
     });
 
-
+Container(
+            alignment: Alignment.bottomCenter,
+            width: MediaQuery.of(context).size.width,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 0),
+              color: Colors.grey,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: messageController,
+                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                      // ignore: prefer_const_constructors
+                      decoration: InputDecoration(
+                        hintText: "Send a Message",
+                        hintStyle: const TextStyle(color: Colors.white54),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                  IconButton(onPressed: sendmessage, icon: Icon(Icons.send))
+                ],
+              ),
+            ),
+          ),
 
 
     Container(
