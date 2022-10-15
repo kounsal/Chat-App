@@ -12,9 +12,9 @@ class Searchpage extends StatefulWidget {
 
 class _SearchpageState extends State<Searchpage> {
   TextEditingController searchController = TextEditingController();
-  bool _isLoading = false;
+
   QuerySnapshot? searchSnapshot;
-  bool hasUserSearched = false;
+  bool _isLoading = false, hasUserSearched = false, isJoined = false;
   User? user;
   String userName = '';
 
@@ -144,6 +144,7 @@ class _SearchpageState extends State<Searchpage> {
 
   Widget groupTile(
       String userName, String groupid, String groupName, String admin) {
+    joinedornot(userName, groupid, groupName, admin);
     return ListTile(
       leading: CircleAvatar(
         radius: 30,
@@ -157,5 +158,16 @@ class _SearchpageState extends State<Searchpage> {
       title: Text(groupName),
       subtitle: Text("Admin : ${admin.substring(admin.indexOf("_") + 1)}"),
     );
+  }
+
+  joinedornot(
+      String userName, String groupId, String groupName, String admin) async {
+    await DatabaseService(uid: user!.uid)
+        .isuserJoined(groupName, groupId, userName)
+        .then((value) {
+      setState(() {
+        isJoined = value;
+      });
+    });
   }
 }
