@@ -47,11 +47,20 @@ class _MessageTileState extends State<MessageTile> {
               : const Color.fromARGB(247, 247, 121, 125),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              widget.sender,
-              style: const TextStyle(color: Colors.white),
-              textAlign: TextAlign.end,
+            Container(
+              padding: const EdgeInsets.only(bottom: 4, top: 3),
+              child: Text(
+                widget.sender,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: widget.sentByMe
+                      ? const Color.fromARGB(247, 121, 125, 247)
+                      : const Color.fromARGB(247, 121, 247, 180),
+                ),
+                textAlign: TextAlign.start,
+              ),
             ),
             Text(
               widget.message,

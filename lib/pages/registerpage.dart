@@ -67,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               register();
                             }
                           },
-                          color: const Color.fromARGB(255, 179, 14, 14),
+                          color: Theme.of(context).primaryColor,
                           child: const Text(
                             "Register",
                             style: TextStyle(
@@ -79,10 +79,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           onPressed: () {
                             nextScreen(context, const LoginPage());
                           },
-                          child: const Text(
+                          child: Text(
                             "Already Have a Account ? Login Here",
                             style: TextStyle(
-                                color: Color.fromARGB(255, 179, 14, 14)),
+                                color: Theme.of(context).primaryColor),
                           ),
                         )
                       ],
@@ -127,9 +127,9 @@ class _RegisterPageState extends State<RegisterPage> {
       obscureText: true,
       decoration: textInputDecoration.copyWith(
         labelText: "Password",
-        prefixIcon: const Icon(
+        prefixIcon: Icon(
           Icons.lock,
-          color: Color.fromARGB(255, 179, 14, 14),
+          color: Theme.of(context).primaryColor,
         ),
       ),
       onChanged: (value) {
@@ -149,9 +149,9 @@ class _RegisterPageState extends State<RegisterPage> {
     return TextFormField(
       decoration: textInputDecoration.copyWith(
         labelText: "Email",
-        prefixIcon: const Icon(
+        prefixIcon: Icon(
           Icons.email,
-          color: Color.fromARGB(255, 179, 14, 14),
+          color: Theme.of(context).primaryColor,
         ),
       ),
       onChanged: (value) {
@@ -171,9 +171,9 @@ class _RegisterPageState extends State<RegisterPage> {
     return TextFormField(
       decoration: textInputDecoration.copyWith(
         labelText: "Name",
-        prefixIcon: const Icon(
+        prefixIcon: Icon(
           Icons.person,
-          color: Color.fromARGB(255, 179, 14, 14),
+          color: Theme.of(context).primaryColor,
         ),
       ),
       onChanged: (value) {

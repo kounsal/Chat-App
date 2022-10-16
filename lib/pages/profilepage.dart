@@ -23,8 +23,9 @@ class _ProfilepageState extends State<Profilepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 233, 207, 208),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 179, 14, 14),
+        backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
         actions: [
           IconButton(
@@ -52,7 +53,7 @@ class _ProfilepageState extends State<Profilepage> {
             Icon(
               Icons.account_circle,
               size: 150,
-              color: Colors.grey[700],
+              color: Theme.of(context).primaryColor,
             ),
             Text(
               widget.fullname.toUpperCase(),
@@ -68,7 +69,7 @@ class _ProfilepageState extends State<Profilepage> {
               onTap: () {
                 nextScreenReplace(context, const Homepage());
               },
-              selectedColor: const Color.fromARGB(255, 179, 14, 14),
+              selectedColor: Theme.of(context).primaryColor,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               leading: const Icon(Icons.group),
@@ -80,7 +81,7 @@ class _ProfilepageState extends State<Profilepage> {
             ListTile(
               selected: true,
               onTap: () {},
-              selectedColor: const Color.fromARGB(255, 179, 14, 14),
+              selectedColor: Theme.of(context).primaryColor,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               leading: const Icon(Icons.person),
@@ -127,7 +128,7 @@ class _ProfilepageState extends State<Profilepage> {
                   },
                 );
               },
-              selectedColor: const Color.fromARGB(255, 179, 14, 14),
+              selectedColor: Theme.of(context).primaryColor,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               leading: const Icon(Icons.exit_to_app_sharp),
@@ -147,7 +148,7 @@ class _ProfilepageState extends State<Profilepage> {
             Icon(
               Icons.account_circle,
               size: 200,
-              color: Colors.grey[700],
+              color: Theme.of(context).primaryColor,
             ),
             space(15),
             Row(

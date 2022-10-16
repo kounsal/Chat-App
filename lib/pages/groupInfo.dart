@@ -49,7 +49,7 @@ class _GroupInfoState extends State<GroupInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(237, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 233, 207, 208),
       body: SafeArea(
         child: SingleChildScrollView(
           child: StreamBuilder(
@@ -60,7 +60,8 @@ class _GroupInfoState extends State<GroupInfo> {
                     header(snapshot),
                     const SizedBox(height: 7.0),
                     Container(
-                      decoration: const BoxDecoration(color: Colors.white),
+                      decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 236, 184, 186)),
                       child: memberlist(snapshot),
                     ),
                   ],
@@ -73,7 +74,8 @@ class _GroupInfoState extends State<GroupInfo> {
 
   header(sanapshot) {
     return Container(
-      decoration: const BoxDecoration(color: Colors.white),
+      decoration:
+          const BoxDecoration(color: Color.fromARGB(255, 236, 184, 186)),
       child: Column(
         children: [
           const SizedBox(height: 10),
@@ -89,12 +91,13 @@ class _GroupInfoState extends State<GroupInfo> {
                   icon: const Icon(Icons.arrow_back),
                 ),
               ),
-              const Expanded(
+              Expanded(
                   child: Center(
                 child: CircleAvatar(
                   radius: 70,
-                  backgroundColor: Color.fromARGB(228, 219, 72, 62),
-                  child: Icon(Icons.person, size: 60, color: Colors.white),
+                  backgroundColor: Theme.of(context).primaryColor,
+                  child:
+                      const Icon(Icons.person, size: 60, color: Colors.white),
                 ),
               )),
               const Positioned(
@@ -175,7 +178,7 @@ class _GroupInfoState extends State<GroupInfo> {
                   child: ListTile(
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.red,
+                      backgroundColor: Theme.of(context).primaryColor,
                       child: Text(
                         getName(sanapshot.data['members'][index])
                             .substring(0, 1)

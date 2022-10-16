@@ -40,10 +40,11 @@ class _SearchpageState extends State<Searchpage> {
   Widget build(BuildContext context) {
     // ignore: prefer_const_constructors
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 233, 207, 208),
       appBar: AppBar(
         actions: const [],
         elevation: 0,
-        backgroundColor: Colors.red,
+        backgroundColor: Theme.of(context).primaryColor,
         title: const Text(
           "Search",
           style: TextStyle(
@@ -57,7 +58,7 @@ class _SearchpageState extends State<Searchpage> {
       body: Column(
         children: [
           Container(
-            color: Colors.red,
+            color: Theme.of(context).primaryColor,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: Row(
               children: [
@@ -102,9 +103,9 @@ class _SearchpageState extends State<Searchpage> {
             ),
           ),
           _isLoading
-              ? const Center(
+              ? Center(
                   child: CircularProgressIndicator(
-                    color: Colors.red,
+                    color: Theme.of(context).primaryColor,
                   ),
                 )
               : groupList(),
@@ -152,7 +153,7 @@ class _SearchpageState extends State<Searchpage> {
     return ListTile(
       leading: CircleAvatar(
         radius: 30,
-        backgroundColor: Colors.red,
+        backgroundColor: Theme.of(context).primaryColor,
         child: Text(
           groupName.substring(0, 1).toUpperCase(),
           style: const TextStyle(
@@ -208,7 +209,7 @@ class _SearchpageState extends State<Searchpage> {
             : Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Colors.green,
+                  color: Theme.of(context).primaryColor,
                   border: Border.all(color: Colors.white, width: 1),
                 ),
                 padding:

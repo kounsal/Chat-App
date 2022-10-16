@@ -30,19 +30,21 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   
+  
   cloud_firestore: ^3.4.8
   cupertino_icons: ^1.0.2
   emoji_picker_flutter: ^1.4.0
   firebase_analytics: ^9.3.8
   firebase_auth: ^3.9.0
   firebase_core: ^1.22.0
+  firebase_messaging: ^13.1.0
   firebase_remote_config: ^2.0.20
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
-  google_sign_in: ^5.4.2
+ 
   shared_preferences: ^2.0.15
-  voice_message_package: ^0.0.74
+
 
 dev_dependencies:
 

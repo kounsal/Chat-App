@@ -65,8 +65,9 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 233, 207, 208),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 179, 14, 14),
+        backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
         actions: [
           IconButton(
@@ -95,7 +96,7 @@ class _HomepageState extends State<Homepage> {
             Icon(
               Icons.account_circle,
               size: 150,
-              color: Colors.grey[700],
+              color: Theme.of(context).primaryColor,
             ),
             Text(
               fullname.toUpperCase(),
@@ -110,7 +111,7 @@ class _HomepageState extends State<Homepage> {
             ListTile(
               onTap: () {},
               selected: true,
-              selectedColor: const Color.fromARGB(255, 179, 14, 14),
+              selectedColor: Theme.of(context).primaryColor,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               leading: const Icon(Icons.group),
@@ -126,7 +127,7 @@ class _HomepageState extends State<Homepage> {
                   Profilepage(email: email!, fullname: fullname),
                 );
               },
-              selectedColor: const Color.fromARGB(255, 179, 14, 14),
+              selectedColor: Theme.of(context).primaryColor,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               leading: const Icon(Icons.person),
@@ -173,7 +174,7 @@ class _HomepageState extends State<Homepage> {
                   },
                 );
               },
-              selectedColor: const Color.fromARGB(255, 179, 14, 14),
+              selectedColor: Theme.of(context).primaryColor,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               leading: const Icon(Icons.exit_to_app_sharp),
@@ -190,7 +191,7 @@ class _HomepageState extends State<Homepage> {
         onPressed: () {
           popUpDialog(context);
         },
-        backgroundColor: Colors.red,
+        backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(Icons.add),
       ),
     );

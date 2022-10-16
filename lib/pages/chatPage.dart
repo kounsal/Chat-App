@@ -2,6 +2,7 @@
 
 import 'dart:async' show Stream, Timer;
 import 'package:chat_app/pages/groupInfo.dart';
+
 import 'package:chat_app/services/database_service.dart';
 import 'package:chat_app/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -107,8 +108,15 @@ class _ChatPageState extends State<ChatPage> {
               ]),
             ),
             IconButton(
-              icon: const Icon(Icons.more_vert),
               onPressed: () {},
+              icon: const Icon(Icons.video_call, color: Colors.white, size: 30),
+            ),
+            PopupMenuButton(
+              icon: const Icon(Icons.more_vert),
+              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                const PopupMenuItem(child: Text('Delete Chat')),
+                const PopupMenuItem(child: Text('Leave Group')),
+              ],
             ),
           ],
         ),

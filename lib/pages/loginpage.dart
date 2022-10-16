@@ -70,22 +70,22 @@ class _LoginPageState extends State<LoginPage> {
                               login();
                             }
                           },
-                          color: const Color.fromARGB(255, 179, 14, 14),
+                          color: Theme.of(context).primaryColor,
                           child: const Text(
                             "Sign In",
                             style: TextStyle(
                                 fontSize: 17,
-                                color: Color.fromARGB(153, 255, 255, 255)),
+                                color: Color.fromARGB(255, 255, 255, 255)),
                           ),
                         ),
                         MaterialButton(
                           onPressed: () {
                             nextScreen(context, const RegisterPage());
                           },
-                          child: const Text(
+                          child: Text(
                             "New here? Create account",
                             style: TextStyle(
-                                color: Color.fromARGB(255, 179, 14, 14)),
+                                color: Theme.of(context).primaryColor),
                           ),
                         )
                       ],
@@ -136,9 +136,9 @@ class _LoginPageState extends State<LoginPage> {
       obscureText: true,
       decoration: textInputDecoration.copyWith(
         labelText: "Password",
-        prefixIcon: const Icon(
+        prefixIcon: Icon(
           Icons.lock,
-          color: Color.fromARGB(255, 179, 14, 14),
+          color: Theme.of(context).primaryColor,
         ),
       ),
       onChanged: (value) {
@@ -158,9 +158,9 @@ class _LoginPageState extends State<LoginPage> {
     return TextFormField(
       decoration: textInputDecoration.copyWith(
         labelText: "Email",
-        prefixIcon: const Icon(
+        prefixIcon: Icon(
           Icons.email,
-          color: Color.fromARGB(255, 179, 14, 14),
+          color: Theme.of(context).primaryColor,
         ),
       ),
       onChanged: (value) {

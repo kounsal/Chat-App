@@ -36,7 +36,7 @@ class _GroupTileState extends State<GroupTile> {
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
         child: ListTile(
           leading: CircleAvatar(
-            backgroundColor: Colors.red,
+            backgroundColor: Theme.of(context).primaryColor,
             radius: 30,
             child: Text(
               widget.groupName.substring(0, 1).toUpperCase(),

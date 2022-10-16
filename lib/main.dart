@@ -52,6 +52,11 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        theme: ThemeData(
+          primaryColor: Color.fromARGB(247, 247, 180, 121),
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
         debugShowCheckedModeBanner: false,
         home: _isSignedIn ? const Homepage() : const LoginPage());
   }
