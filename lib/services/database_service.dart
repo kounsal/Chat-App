@@ -60,7 +60,7 @@ class DatabaseService {
         "groupId": groupdocumentReference.id,
       },
     );
-    DocumentReference userDocumentRefrence = await userCollection.doc(uid);
+    DocumentReference userDocumentRefrence = userCollection.doc(uid);
     return await userDocumentRefrence.update({
       "groups":
           FieldValue.arrayUnion(["${groupdocumentReference.id}_$groupName"]),

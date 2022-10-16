@@ -1,5 +1,6 @@
 import 'package:chat_app/pages/homepage.dart';
 import 'package:chat_app/shared/contants.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './helper/helper_function.dart';
@@ -20,7 +21,7 @@ Future<void> main() async {
     await Firebase.initializeApp();
   }
 
-  runApp(App());
+  runApp(const App());
 }
 
 class App extends StatefulWidget {
@@ -51,8 +52,29 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: _isSignedIn ? Homepage() : LoginPage(),
-    );
+        debugShowCheckedModeBanner: false,
+        home: _isSignedIn ? const Homepage() : const LoginPage());
   }
+}
+
+AlertDialog showAlert(BuildContext context, FirebaseRemoteConfig remoteConfig) {
+  Widget cancel = MaterialButton(
+    child: const Text("Cancel"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  Widget update = MaterialButton(
+    child: const Text("Update"),
+    onPressed: () {},
+  );
+
+  return AlertDialog(
+    title: Text(remoteConfig.getString('title')),
+    content: Text(remoteConfig.getString('message')),
+    actions: [
+      cancel,
+      update,
+    ],
+  );
 }

@@ -63,8 +63,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             borderRadius: BorderRadius.circular(18),
                           ),
                           onPressed: () {
-                            if (formkey.currentState!.validate()) ;
-                            register();
+                            if (formkey.currentState!.validate()) {
+                              register();
+                            }
                           },
                           color: const Color.fromARGB(255, 179, 14, 14),
                           child: const Text(
@@ -76,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         MaterialButton(
                           onPressed: () {
-                            nextScreen(context, LoginPage());
+                            nextScreen(context, const LoginPage());
                           },
                           child: const Text(
                             "Already Have a Account ? Login Here",
@@ -108,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
           await HelperFunction.saveUserNameSF(name);
           // ignore: use_build_context_synchronously
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => Homepage()),
+              MaterialPageRoute(builder: (context) => const Homepage()),
               (route) => false);
         } else {
           showSnackBar(context, Colors.red, value);
@@ -137,8 +138,9 @@ class _RegisterPageState extends State<RegisterPage> {
       validator: (value) {
         if (value!.length < 6) {
           return "Password must be atleast 6 characters";
-        } else
-          null;
+        } else {
+          return null;
+        }
       },
     );
   }
@@ -158,8 +160,9 @@ class _RegisterPageState extends State<RegisterPage> {
       validator: (value) {
         if (!value!.contains("@")) {
           return "Enter valid Password";
-        } else
-          null;
+        } else {
+          return null;
+        }
       },
     );
   }
@@ -177,9 +180,9 @@ class _RegisterPageState extends State<RegisterPage> {
         name = value;
       },
       validator: (value) {
-        if (value!.isNotEmpty)
-          null;
-        else {
+        if (value!.isNotEmpty) {
+          return null;
+        } else {
           return "Enter valid Password";
         }
       },

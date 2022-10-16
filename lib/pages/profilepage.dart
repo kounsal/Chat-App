@@ -1,4 +1,5 @@
-import 'package:chat_app/helper/helper_function.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:chat_app/pages/homepage.dart';
 import 'package:chat_app/pages/loginpage.dart';
 import 'package:chat_app/services/auth_service.dart';
@@ -21,7 +22,6 @@ class _ProfilepageState extends State<Profilepage> {
   @override
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 179, 14, 14),
@@ -31,7 +31,7 @@ class _ProfilepageState extends State<Profilepage> {
             onPressed: (() {
               nextScreen(
                 context,
-                Searchpage(),
+                const Searchpage(),
               );
             }),
             icon: const Icon(Icons.search),
@@ -66,7 +66,7 @@ class _ProfilepageState extends State<Profilepage> {
             ),
             ListTile(
               onTap: () {
-                nextScreenReplace(context, Homepage());
+                nextScreenReplace(context, const Homepage());
               },
               selectedColor: const Color.fromARGB(255, 179, 14, 14),
               contentPadding:
@@ -96,8 +96,8 @@ class _ProfilepageState extends State<Profilepage> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      content: Text("Are you sure you want to Logout?"),
-                      title: Text("Logout"),
+                      content: const Text("Are you sure you want to Logout?"),
+                      title: const Text("Logout"),
                       actions: [
                         IconButton(
                           onPressed: () {
@@ -140,7 +140,7 @@ class _ProfilepageState extends State<Profilepage> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 100),
+        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 100),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -160,7 +160,7 @@ class _ProfilepageState extends State<Profilepage> {
                 Text(widget.fullname, style: const TextStyle(fontSize: 17)),
               ],
             ),
-            Divider(
+            const Divider(
               height: 20,
             ),
             Row(

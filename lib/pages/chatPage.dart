@@ -1,3 +1,6 @@
+// ignore_for_file: file_names
+
+import 'dart:async' show Stream, Timer;
 import 'package:chat_app/pages/groupInfo.dart';
 import 'package:chat_app/services/database_service.dart';
 import 'package:chat_app/widgets/widgets.dart';
@@ -23,12 +26,14 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   Stream<QuerySnapshot>? chats;
   String admin = "";
+  final ScrollController _scrollController = ScrollController();
 
   TextEditingController messageController = TextEditingController();
   @override
   void initState() {
     getChatAndAdmin();
     super.initState();
+    setState(() {});
   }
 
   getChatAndAdmin() {
@@ -46,72 +51,100 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text(widget.groupName),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment(0.8, 1),
+          colors: <Color>[
+            Color.fromARGB(240, 198, 255, 221),
+            Color.fromARGB(251, 251, 216, 134),
+            Color.fromARGB(247, 247, 121, 125),
+          ],
         ),
-        backgroundColor: const Color.fromARGB(255, 179, 14, 14),
-        actions: [
-          IconButton(
-            onPressed: () {
-              nextScreen(
-                context,
-                GroupInfo(
-                    groupId: widget.groupId,
-                    groupName: widget.groupName,
-                    adminname: admin),
-              );
-            },
-            icon: const Icon(
-              Icons.info,
-              color: Colors.white,
-            ),
-          )
-        ],
       ),
-      body: Stack(
-        children: [
-          chatbody(),
-          Container(
-            alignment: Alignment.bottomCenter,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 0),
-              color: Colors.grey,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: messageController,
-                      style: const TextStyle(color: Colors.white, fontSize: 15),
-                      // ignore: prefer_const_constructors
-                      decoration: InputDecoration(
-                        hintText: "Send a Message",
-                        hintStyle: const TextStyle(color: Colors.white54),
-                        border: InputBorder.none,
-                      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          automaticallyImplyLeading: false,
+          actions: [
+            Expanded(
+              child: Row(children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                CircleAvatar(
+                  radius: MediaQuery.of(context).size.width * 0.045,
+                  backgroundColor: const Color.fromARGB(75, 0, 0, 0),
+                  child: const Icon(
+                    Icons.group,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () {
+                    nextScreen(
+                      context,
+                      GroupInfo(
+                          groupId: widget.groupId,
+                          groupName: widget.groupName,
+                          adminname: admin),
+                    );
+                  },
+                  child: Text(
+                    widget.groupName,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: MediaQuery.of(context).size.width * 0.05,
                     ),
                   ),
-                  IconButton(onPressed: sendmessage, icon: Icon(Icons.send))
-                ],
-              ),
+                ),
+              ]),
             ),
-          ),
-        ],
+            IconButton(
+              icon: const Icon(Icons.more_vert),
+              onPressed: () {},
+            ),
+          ],
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            //chatbody(),
+            messec(),
+
+            messbar(),
+          ],
+        ),
       ),
     );
   }
 
-  chatbody() {
-    return SafeArea(
+  messec() {
+    setState(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_scrollController.hasClients) {
+          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+        }
+      });
+    });
+    return SizedBox(
+      height: MediaQuery.of(context).viewInsets.bottom == 0
+          ? MediaQuery.of(context).size.height * 0.8
+          : MediaQuery.of(context).size.height * 0.44,
       child: StreamBuilder(
           stream: chats,
           builder: (context, AsyncSnapshot snapshot) {
             return snapshot.hasData
                 ? ListView.builder(
+                    padding: const EdgeInsets.only(left: 5, right: 5),
+                    controller: _scrollController,
+                    scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       return MessageTile(
@@ -122,10 +155,42 @@ class _ChatPageState extends State<ChatPage> {
                       );
                     },
                   )
-                : Container(
-                    child: Text("No chats found"),
-                  );
+                : const Text("No chats found");
           }),
+    );
+  }
+
+  chatbody() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.15,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 15, 15, 40),
+        child: StreamBuilder(
+            stream: chats,
+            builder: (context, AsyncSnapshot snapshot) {
+              return snapshot.hasData
+                  ? Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.8,
+                          child: (ListView.builder(
+                            controller: _scrollController,
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              return MessageTile(
+                                message: snapshot.data.docs[index]["message"],
+                                sentByMe: widget.username ==
+                                    snapshot.data.docs[index]["sender"],
+                                sender: snapshot.data.docs[index]["sender"],
+                              );
+                            },
+                          )),
+                        ),
+                      ],
+                    )
+                  : const Text("No chats found");
+            }),
+      ),
     );
   }
 
@@ -139,67 +204,105 @@ class _ChatPageState extends State<ChatPage> {
       DatabaseService().sendMessageToGroup(widget.groupId, messageMap);
       setState(() {
         messageController.clear();
+        Timer(
+            const Duration(milliseconds: 500),
+            () => _scrollController
+                .jumpTo(_scrollController.position.maxScrollExtent));
       });
     }
   }
 
   messbar() {
-    return Row(
-      children: [
-        Container(
-          width: 5,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Row(
             children: [
               Container(
                 width: 5,
               ),
-              // ignore: prefer_const_constructors
-              Icon(
-                Icons.emoji_emotions_outlined,
-                color: Colors.black,
-                size: 30,
-              ),
-              SizedBox(
-                width: 200,
-                child: TextFormField(),
-              ),
-              Transform.rotate(
-                angle: 2 / 3.14,
-                child: const IconButton(
-                  icon: Icon(
-                    Icons.attach_file,
-                    color: Colors.black,
-                  ),
-                  onPressed: null,
+              Container(
+                height: 45,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: const Color.fromARGB(45, 77, 63, 63),
                 ),
-              ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      width: 5,
+                    ),
+                    // ignore: prefer_const_constructors
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.emoji_emotions_outlined,
+                        color: Colors.black,
+                        size: 30,
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.47,
+                      child: TextFormField(
+                        decoration: const InputDecoration(),
+                        controller: messageController,
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                    Transform.rotate(
+                      angle: 2 / 3.1415,
+                      child: const IconButton(
+                        icon: Icon(
+                          Icons.attach_file,
+                          color: Colors.black,
+                        ),
+                        onPressed: null,
+                      ),
+                    ),
 
-              IconButton(
-                onPressed: null,
-                icon: Icon(
-                  Icons.camera_alt,
-                  color: Colors.black,
+                    const IconButton(
+                      onPressed: null,
+                      icon: Icon(
+                        Icons.camera_alt,
+                        color: Colors.black,
+                      ),
+                    )
+                  ],
                 ),
+              ),
+              Container(
+                width: 5,
+              ),
+              CircleAvatar(
+                maxRadius: 23,
+                backgroundColor: const Color.fromARGB(228, 228, 255, 198),
+                child: messageController.text.isNotEmpty
+                    ? IconButton(
+                        onPressed: () {
+                          sendmessage();
+                        },
+                        icon: const Icon(
+                          Icons.send,
+                          color: Colors.black,
+                        ),
+                      )
+                    : const IconButton(
+                        onPressed: null,
+                        icon: Icon(
+                          Icons.mic,
+                          color: Colors.black,
+                        ),
+                      ),
               )
             ],
           ),
-        ),
-        Container(
-          width: 5,
-        ),
-        CircleAvatar(
-          maxRadius: 23,
-          backgroundColor: Color.fromARGB(255, 1, 177, 159),
-          child: Icon(Icons.mic),
-        )
-      ],
+          const SizedBox(height: 4),
+        ],
+      ),
     );
   }
 }

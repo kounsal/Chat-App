@@ -1,6 +1,5 @@
-// ignore_for_file: sort_child_properties_last
+// ignore_for_file: file_names
 
-import 'package:chat_app/pages/chatPage.dart';
 import 'package:chat_app/services/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -49,9 +48,8 @@ class _GroupInfoState extends State<GroupInfo> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-      backgroundColor: Color.fromARGB(237, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(237, 255, 255, 255),
       body: SafeArea(
         child: SingleChildScrollView(
           child: StreamBuilder(
@@ -75,7 +73,7 @@ class _GroupInfoState extends State<GroupInfo> {
 
   header(sanapshot) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(color: Colors.white),
       child: Column(
         children: [
           const SizedBox(height: 10),
@@ -95,8 +93,8 @@ class _GroupInfoState extends State<GroupInfo> {
                   child: Center(
                 child: CircleAvatar(
                   radius: 70,
-                  child: Icon(Icons.person, size: 60, color: Colors.white),
                   backgroundColor: Color.fromARGB(228, 219, 72, 62),
+                  child: Icon(Icons.person, size: 60, color: Colors.white),
                 ),
               )),
               const Positioned(
@@ -131,7 +129,7 @@ class _GroupInfoState extends State<GroupInfo> {
               TextSpan(
                 text: "Group ",
                 children: [
-                  WidgetSpan(
+                  const WidgetSpan(
                     alignment: PlaceholderAlignment.middle,
                     child: Icon(
                       Icons.circle,

@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
 
           // ignore: use_build_context_synchronously
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => Homepage()),
+              MaterialPageRoute(builder: (context) => const Homepage()),
               (route) => false);
         } else {
           showSnackBar(context, Colors.red, value);
@@ -147,8 +147,9 @@ class _LoginPageState extends State<LoginPage> {
       validator: (value) {
         if (value!.length < 6) {
           return "Password must be atleast 6 characters";
-        } else
-          null;
+        } else {
+          return null;
+        }
       },
     );
   }
@@ -168,8 +169,9 @@ class _LoginPageState extends State<LoginPage> {
       validator: (value) {
         if (!value!.contains("@")) {
           return "Enter valid Password";
-        } else
-          null;
+        } else {
+          return null;
+        }
       },
     );
   }

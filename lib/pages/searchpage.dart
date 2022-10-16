@@ -1,5 +1,4 @@
 import 'package:chat_app/helper/helper_function.dart';
-import 'package:chat_app/main.dart';
 import 'package:chat_app/pages/chatPage.dart';
 import 'package:chat_app/services/database_service.dart';
 import 'package:chat_app/widgets/widgets.dart';
@@ -8,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Searchpage extends StatefulWidget {
+  const Searchpage({super.key});
+
   @override
   State<Searchpage> createState() => _SearchpageState();
 }
@@ -20,6 +21,7 @@ class _SearchpageState extends State<Searchpage> {
   User? user;
   String userName = '';
 
+  @override
   void initState() {
     super.initState();
     getcurrentUserIdandName();
@@ -39,7 +41,7 @@ class _SearchpageState extends State<Searchpage> {
     // ignore: prefer_const_constructors
     return Scaffold(
       appBar: AppBar(
-        actions: [],
+        actions: const [],
         elevation: 0,
         backgroundColor: Colors.red,
         title: const Text(
@@ -159,7 +161,7 @@ class _SearchpageState extends State<Searchpage> {
       ),
       title: Text(
         groupName,
-        style: TextStyle(fontWeight: FontWeight.w600),
+        style: const TextStyle(fontWeight: FontWeight.w600),
       ),
       subtitle: Text("Admin : ${admin.substring(admin.indexOf("_") + 1)}"),
       trailing: InkWell(

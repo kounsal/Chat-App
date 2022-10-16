@@ -64,7 +64,6 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 179, 14, 14),
@@ -74,7 +73,7 @@ class _HomepageState extends State<Homepage> {
             onPressed: (() {
               nextScreen(
                 context,
-                Searchpage(),
+                const Searchpage(),
               );
             }),
             icon: const Icon(Icons.search),
