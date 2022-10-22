@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 
 class DatabaseService {
   late String? uid;
@@ -132,6 +133,11 @@ class DatabaseService {
         "members": FieldValue.arrayUnion(["${uid}_$userName"])
       });
     }
+  }
+
+  Future imagePicker(picker) async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    return pickedFile;
   }
 
   //send message to group
