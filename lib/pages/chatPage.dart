@@ -2,10 +2,12 @@
 
 import 'dart:async' show Stream, Timer;
 import 'package:chat_app/pages/groupInfo.dart';
+import 'package:chat_app/pages/homepage.dart';
 
 import 'package:chat_app/services/database_service.dart';
 import 'package:chat_app/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/chat_tiles.dart';
 
@@ -25,6 +27,7 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  User user = FirebaseAuth.instance.currentUser!;
   Stream<QuerySnapshot>? chats;
   String admin = "";
   final ScrollController _scrollController = ScrollController();
@@ -115,7 +118,14 @@ class _ChatPageState extends State<ChatPage> {
               icon: const Icon(Icons.more_vert),
               itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                 const PopupMenuItem(child: Text('Delete Chat')),
-                const PopupMenuItem(child: Text('Leave Group')),
+                PopupMenuItem(
+                  child: MaterialButton(
+                    onPressed: () {
+                      leaveGrp();
+                    },
+                    child: const Text('Leave Group'),
+                  ),
+                ),
               ],
             ),
           ],
@@ -218,6 +228,13 @@ class _ChatPageState extends State<ChatPage> {
                 .jumpTo(_scrollController.position.maxScrollExtent));
       });
     }
+  }
+
+  leaveGrp() async {
+    await DatabaseService(uid: user.uid)
+        .toggleGroupJoin(widget.groupId, widget.groupName, widget.username);
+    // ignore: use_build_context_synchronously
+    nextScreenReplace(context, const Homepage());
   }
 
   messbar() {
