@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:chat_app/services/database_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,7 @@ class GroupInfo extends StatefulWidget {
 }
 
 class _GroupInfoState extends State<GroupInfo> {
+  QuerySnapshot? adminSnapshot;
   Stream? members;
   @override
   void initState() {
@@ -36,6 +38,14 @@ class _GroupInfoState extends State<GroupInfo> {
         members = value;
       });
     });
+  }
+
+  checkadmin(username) {
+    if (username == widget.adminname) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   String getName(String res) {
@@ -190,6 +200,16 @@ class _GroupInfoState extends State<GroupInfo> {
                       ),
                     ),
                     title: Text(getName(sanapshot.data['members'][index])),
+                    trailing: checkadmin(sanapshot.data['members'][index])
+                        ? Container(
+                            decoration: const BoxDecoration(
+                                color: Color.fromARGB(117, 194, 183, 151)),
+                            padding: const EdgeInsets.all(5),
+                            child: const Text("Admin"),
+                          )
+                        : Container(
+                            width: 0,
+                          ),
                     subtitle: Text(getId(sanapshot.data['members'][index])),
                   ),
                   padding:
