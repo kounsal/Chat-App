@@ -93,6 +93,16 @@ class DatabaseService {
     return groupCollection.where("groupName", isEqualTo: groupName).get();
   }
 
+  Future leaveGroup(groupId, groupName) async {
+    return await userCollection.doc(uid).update({
+      "groups": FieldValue.arrayRemove(["${groupId}_$groupName"]),
+    });
+  }
+
+  Future deleteGroup(groupId, groupName) async {
+    return await groupCollection.doc(groupId).delete();
+  }
+
 //is user joined
 
   Future<bool> isuserJoined(

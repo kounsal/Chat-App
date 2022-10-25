@@ -1,9 +1,11 @@
 // ignore_for_file: file_names
 
 import 'package:chat_app/services/database_service.dart';
+import 'package:chat_app/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'homepage.dart';
 
 class GroupInfo extends StatefulWidget {
   final String groupId;
@@ -48,6 +50,17 @@ class _GroupInfoState extends State<GroupInfo> {
     }
   }
 
+  leave() async {
+    await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+        .leaveGroup(widget.groupId, widget.groupName);
+  }
+
+  delete() async {
+    await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+        .deleteGroup(widget.groupId, widget.groupName);
+    leave();
+  }
+
   String getName(String res) {
     return res.substring(res.indexOf("_") + 1);
   }
@@ -65,16 +78,20 @@ class _GroupInfoState extends State<GroupInfo> {
           child: StreamBuilder(
               stream: members,
               builder: (context, AsyncSnapshot snapshot) {
-                return Column(
-                  children: [
-                    header(snapshot),
-                    const SizedBox(height: 7.0),
-                    Container(
-                      decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 236, 184, 186)),
-                      child: memberlist(snapshot),
-                    ),
-                  ],
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      header(snapshot),
+                      const SizedBox(height: 7.0),
+                      Container(
+                        decoration: const BoxDecoration(
+                            color: Color.fromARGB(255, 236, 184, 186)),
+                        child: memberlist(snapshot),
+                      ),
+                      const SizedBox(height: 7.0),
+                      footer(),
+                    ],
+                  ),
                 );
               }),
         ),
@@ -174,50 +191,79 @@ class _GroupInfoState extends State<GroupInfo> {
     }
   }
 
+  Widget footer() {
+    return Container(
+      decoration:
+          const BoxDecoration(color: Color.fromARGB(255, 236, 184, 186)),
+      child: Column(
+        children: [
+          const SizedBox(height: 5),
+          ListTile(
+            leading: const Icon(Icons.person_remove),
+            title: const Text("Leave Group"),
+            onTap: () {
+              leave();
+              nextScreenReplace(context, Homepage());
+            },
+          ),
+          !checkadmin(FirebaseAuth.instance.currentUser!)
+              ? ListTile(
+                  leading: const Icon(Icons.delete),
+                  title: const Text("Delete Group"),
+                  onTap: () {
+                    delete();
+
+                    nextScreenReplace(context, Homepage());
+                  },
+                )
+              : Container(),
+        ],
+      ),
+    );
+  }
+
   memberlist(sanapshot) {
     if (sanapshot.hasData) {
       if (sanapshot.data['members'] != null) {
         if (sanapshot.data['members'].length != 0) {
-          return (SingleChildScrollView(
-            child: ListView.builder(
-              itemCount: sanapshot.data['members'].length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Container(
-                  // ignore: sort_child_properties_last
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Theme.of(context).primaryColor,
-                      child: Text(
-                        getName(sanapshot.data['members'][index])
-                            .substring(0, 1)
-                            .toUpperCase(),
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
+          return ListView.builder(
+            itemCount: sanapshot.data['members'].length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Container(
+                // ignore: sort_child_properties_last
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    child: Text(
+                      getName(sanapshot.data['members'][index])
+                          .substring(0, 1)
+                          .toUpperCase(),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
                     ),
-                    title: Text(getName(sanapshot.data['members'][index])),
-                    trailing: checkadmin(sanapshot.data['members'][index])
-                        ? Container(
-                            decoration: const BoxDecoration(
-                                color: Color.fromARGB(117, 194, 183, 151)),
-                            padding: const EdgeInsets.all(5),
-                            child: const Text("Admin"),
-                          )
-                        : Container(
-                            width: 0,
-                          ),
-                    subtitle: Text(getId(sanapshot.data['members'][index])),
                   ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                );
-              },
-            ),
-          ));
+                  title: Text(getName(sanapshot.data['members'][index])),
+                  trailing: checkadmin(sanapshot.data['members'][index])
+                      ? Container(
+                          decoration: const BoxDecoration(
+                              color: Color.fromARGB(117, 194, 183, 151)),
+                          padding: const EdgeInsets.all(5),
+                          child: const Text("Admin"),
+                        )
+                      : Container(
+                          width: 0,
+                        ),
+                  subtitle: Text(getId(sanapshot.data['members'][index])),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+              );
+            },
+          );
         } else {
           return const Center(
             child: Text("No Members"),
